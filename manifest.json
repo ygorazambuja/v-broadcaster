@@ -41,7 +41,7 @@
       "notifySubaccounts": {
         "title": "Notify Subaccounts",
         "type": "boolean",
-        "default": false,
+        "default": true,
         "description": "If enabled, if this app is installed in a main account, notifications will also be sent to any related subaccounts"
       },
       "targetWorkspace": {

@@ -1,4 +1,5 @@
 import { BroadcasterClient } from '../clients/broadcaster'
+import ValoraApi from '../clients/valora'
 
 const TIMEOUT_MS = 3000
 const RETRIES = 2
@@ -7,19 +8,36 @@ export async function notifyAllSubaccounts(
   ctx: Context,
   next: () => Promise<any>
 ) {
+  console.log('notifyAllSubaccounts')
+
   const {
     clients: { apps, licenseManager },
     state: { payload },
-    vtex: { account, authToken, logger, workspace },
+    vtex: { account, authToken, logger },
   } = ctx
 
-  if (workspace !== 'master') {
-    return next()
-  }
+  // if (workspace !== 'master') {
+  //   return next()
+  // }
 
   const { notifySubaccounts = false } = await apps.getAppSettings(
     `${process.env.VTEX_APP_ID}`
   )
+
+  const valoraClient = new ValoraApi({
+    ...ctx.vtex,
+    account: 'valorapartnerbr',
+    workspace: 'ygorazambuja',
+  })
+
+  valoraClient
+    .skuChanged(payload)
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 
   if (!notifySubaccounts) {
     return next()

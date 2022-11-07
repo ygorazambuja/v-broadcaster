@@ -8,11 +8,11 @@
   "routes": {
     "notify": {
       "path": "/notify",
-      "public": false
+      "public": true
     },
     "notifySelf": {
       "path": "/_v/self/notify",
-      "public": false,
+      "public": true,
       "policies": [
         {
           "effect": "allow",
